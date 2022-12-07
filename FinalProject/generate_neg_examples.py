@@ -85,11 +85,11 @@ def generate_negative_examples(lines,output_file):
 
 # split the corpus into batches so that it isn't too large for toarray:
 num_pairs = len(paraphrase_pairs)
-upper_limit = 500
+upper_limit = 1000
 with open('difficult_pairs.txt','a') as of:
     i = 0
-    while i+upper_limit < int(num_pairs/25):
-        print(f"{i} out of {int(num_pairs/25)} lines processed...")
+    while i+upper_limit < int(num_pairs):
+        print(f"{i} out of {int(num_pairs)} lines processed...")
         generate_negative_examples(paraphrase_pairs[i:i+upper_limit],of)
         i += upper_limit 
-#    generate_negative_examples(paraphrase_pairs[i:],of)
+    generate_negative_examples(paraphrase_pairs[i:],of)
