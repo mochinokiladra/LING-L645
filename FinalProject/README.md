@@ -1,17 +1,21 @@
 # Improving Paraphrase Detection by Using Highly Similar Non-Paraphrastic Sentence Pairs
 
-The goal of this project was to test whether a paraphrase detection model might be improved by giving it more "challenging" non-paraphrase sentence pairs. By "challenging," I mean sentences that are similar on the surface (such as having many lexical items in common) such that they might confuse a computer, but that a human could easily tell are not semantically equivalent (or even semantically related). So, here is what I did:
-
-* I downloaded a corpus of paraphrase pairs and divided it into three groups: 
-  * one with sentence pairs that were actually paraphrases
-  * one with randomly paired sentences that were assumed not to be paraphrases
-  * one with sentences that were paired with other sentences in the corpus with which they had a high cosine similarity
+The goal of this project was to test whether a paraphrase detection model might be improved by giving it more "challenging" non-paraphrase sentence pairs. By "challenging," I mean sentences that are similar on the surface (such as having many lexical items in common) such that they might confuse a computer, but that a human could easily tell are not semantically equivalent (or even semantically related). 
 
 The idea was that sentence pairs with a high cosine similarity would be harder for a system to distinguish between paraphrase and non-paraphrase because these sentences would appear similar on the surface even if they are not equivalent in meaning.
 
 My objective was to answer the following questions:
 1. Are non-paraphrastic sentence pairs with a high cosine similarity trickier for a machine learning model to classify than sentences that are randomly paired? How much trickier?
 2. Does training a model on these "trickier" examples help it improve its ability to distinguish paraphrases vs. non-paraphrases?
+
+So, here is what I did:
+
+* I downloaded a corpus of paraphrase pairs and divided it into three groups: 
+  * one with sentence pairs that were actually paraphrases
+  * one with randomly paired sentences that were assumed not to be paraphrases
+  * one with sentences that were paired with other sentences in the corpus with which they had a high cosine similarity
+* I created two training sets and two test sets from these three groups of sentence pairs
+* I used a BERT-based model to run some experiments and answer the above two questions.
 
 I used the distilbert-base-uncased model from Huggingface to carry out my experiments.
 
@@ -34,7 +38,7 @@ A paraphrase detection system should be able to tell you that 3a and 3b are para
 4a) The field of computational linguistics is fascinating, in my opinion.
 4b) The field of beautiful flowers is breathtaking, in my opinion.
 
-(The cosine similarity of 3a and 3b is 0.4216, while that of 4a and 4b is 0.7000.)
+(Note that the cosine similarity of 3a and 3b is 0.4216, while that of 4a and 4b is 0.7000.)
 
 ### The Data Source
 The datasets used in this project came from the ParaNMT-50M corpus (link). More specifically, I used the Para-nmt-5m-processed dataset from John Wieting’s web page. This is a subset of the corpus, containing 5,370,128 paraphrase pairs that have been pre-tokenized and fully lowercased. The ParaNMT-50M corpus was created by taking several Czech-English parallel corpora consisting of human translations and translating the Czech side to English using a neural machine translation system. This is similar to the popular “pivoting” method, in which sentences from one language are translated into another language and then back-translated into the original language to create artificial paraphrases.
@@ -73,9 +77,11 @@ Results from Experiment 2 (F1 score):
 
 So, training on high cosine similarity pairs does lead to a significant improvement in its ability to distinguish paraphrases from similar-looking non-paraphrases. Interestingly, the model's performance on test set 1 decreases slightly. Test set 2 is still a bit more difficult than test set 1, even after training on the high-cosine-similarity pairs.
 
-### What would have made this project better?
-First of all, let’s talk about the dataset. In an ideal world, we would have perhaps a very large number of high-quality human-generated paraphrases that have been annotated for quality, meaning preservation, etc. But that’s expensive, hence the popularity of artificial methods of paraphrase generation such as backtranslation. There are obviously shortcomings to such approaches, and we can’t trust that all of the generated sentence pairs will be true paraphrases.
-I went with Para-NMT50 because even though it was created through backtranslation, it seemed to be of decent quality. It is also made up of sentences, and I was interested in doing something with sentential paraphrases. However, manual inspection of the corpus did reveal that quite a few sentences were not true paraphrases. There were mismatches that probably came about from errors in the machine translations. There also appeared to be some sentences in the corpus that were entirely or mostly in Czech. I did not attempt to filter these out. So yeah, the model is getting some incorrect or unhelpful examples in training.
+### What would have made this project better? / What could I try in the future?
+First of all, let’s talk about the dataset. In each sentence pair in ParaNMT-50M, there is one human-generated sentence and one machine-generated one that is assumed to be a paraphrase. Obviously, there are problems with this. I think that an ideal paraphrase corpus would probably consist of pairs of high-quality human-created paraphrases with an abundance of lexical and syntactic variation. Unsurprisingly, that kind of thing isn't easy to find for cheap.
+
+I went with Para-NMT50 because even though it was created through backtranslation, it seemed to be of decent quality. It is also made up of sentences, and I was interested in doing something with sentential paraphrases. However, manual inspection of the corpus did reveal that quite a few sentences were not true paraphrases. There were apparent errors that probably came from the machine translations. There also appeared to be some sentences in the corpus that were entirely or mostly in Czech. I did not attempt to filter these out. So the model is getting some incorrect or unhelpful examples in training.
+
 It would be interesting to try doing this with other corpora and see what the results are. It also might be worthwhile to adjust the Para-NMT dataset more—additional filtering out of problematic sentence pairs, for example, or a higher cosine similarity threshold for the “difficult” non-paraphrase examples that I used in train_2 and test_2. 
 Code Issues
 If I fix the bug in my code to match up the high-cosine-similarity sentence pairs, there will be more examples to work with. 
