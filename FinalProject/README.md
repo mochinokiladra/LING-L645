@@ -1,6 +1,13 @@
 # Improving Paraphrase Detection by Using Highly Similar Non-Paraphrastic Sentence Pairs
 
-The goal of this project was to test whether a paraphrase detection model might be improved by giving it more "challenging" non-paraphrase sentence pairs. I downloaded a corpus of paraphrase pairs and divided it into three groups: one with sentence pairs that were actually paraphrases, one with randomly paired sentences that were assumed not to be paraphrases, and one with sentences that were paired with other sentences in the corpus with which they had a high cosine similarity. The idea was that sentence pairs with a high cosine similarity would be harder for a system to distinguish between paraphrase and non-paraphrase because these sentences would appear to be similar on the surface even if they are not equivalent in meaning.
+The goal of this project was to test whether a paraphrase detection model might be improved by giving it more "challenging" non-paraphrase sentence pairs. By "challenging," I mean sentences that are similar on the surface (such as having many lexical items in common) such that they might confuse a computer, but that a human could easily tell are not semantically equivalent (or even semantically related). So, here is what I did:
+
+- I downloaded a corpus of paraphrase pairs and divided it into three groups: 
+-- one with sentence pairs that were actually paraphrases
+-- one with randomly paired sentences that were assumed not to be paraphrases
+-- one with sentences that were paired with other sentences in the corpus with which they had a high cosine similarity
+
+The idea was that sentence pairs with a high cosine similarity would be harder for a system to distinguish between paraphrase and non-paraphrase because these sentences would appear similar on the surface even if they are not equivalent in meaning.
 
 My objective was to answer the following questions:
 1. Are non-paraphrastic sentence pairs with a high cosine similarity trickier for a machine learning model to classify than sentences that are randomly paired? How much trickier?
