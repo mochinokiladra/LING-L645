@@ -25,29 +25,36 @@ First of all, what does paraphrase detection entail? Well, before we get to that
 2. Sentence A and Sentence B should have (approximately) the same underlying meaning.
 
 Sentence A might differ syntactically from Sentence B, such as in the following example:
-1a) The field of computational linguistics is fascinating, in my opinion.
-1b) In my opinion, the computational linguistics field is fascinating.
+
+> 1a) The field of computational linguistics is fascinating, in my opinion.
+> 1b) In my opinion, the computational linguistics field is fascinating.
+
 Alternatively, the two sentences could have lexical differences:
-2a) The field of computational linguistics is fascinating, in my opinion.
-2b) The subject of computational linguistics is very interesting, in my view.
+
+> 2a) The field of computational linguistics is fascinating, in my opinion.
+> 2b) The subject of computational linguistics is very interesting, in my view.
+
 Often, paraphrases incorporate both lexical and syntactic changes:
-3a) The field of computational linguistics is fascinating, in my opinion.
-3b) I find the computational linguistics field to be very interesting.
+
+> 3a) The field of computational linguistics is fascinating, in my opinion.
+> 3b) I find the computational linguistics field to be very interesting.
 
 A paraphrase detection system should be able to tell you that 3a and 3b are paraphrases, but that 4a and 4b are not:
-4a) The field of computational linguistics is fascinating, in my opinion.
-4b) The field of beautiful flowers is breathtaking, in my opinion.
+
+> 4a) The field of computational linguistics is fascinating, in my opinion.
+> 4b) The field of beautiful flowers is breathtaking, in my opinion.
 
 (Note that the cosine similarity of 3a and 3b is 0.4216, while that of 4a and 4b is 0.7000.)
 
 ### The Data Source
 The datasets used in this project came from the ParaNMT-50M corpus (link). More specifically, I used the Para-nmt-5m-processed dataset from John Wieting’s web page. This is a subset of the corpus, containing 5,370,128 paraphrase pairs that have been pre-tokenized and fully lowercased. The ParaNMT-50M corpus was created by taking several Czech-English parallel corpora consisting of human translations and translating the Czech side to English using a neural machine translation system. This is similar to the popular “pivoting” method, in which sentences from one language are translated into another language and then back-translated into the original language to create artificial paraphrases.
-When I started working with the data, I realized there were some lines in the corpus that were not actual sentences. For instance, one of the lines read:
-> v5.9.1   v5.9.1
+
 
 ### Data Processing Steps
 Here are all of the things I did with the data before using it for my experiments:
-* Some of the functions in scikit-learn won’t process inputs that don’t resemble actual words. So I removed all lines in the corpus that did not contain any consecutive alphabetic characters using a clean_corpus.py script that I wrote. This brought the corpus size down to 4,346,278 pairs.
+* When I started working with the data, I realized there were some lines in the corpus that were not actual sentences. For instance, one of the lines read:
+> v5.9.1   v5.9.1 
+* I wanted to use actual sentences for this project, as much as possible. Furthermore, some of the functions in scikit-learn won’t process inputs that don’t resemble actual words. So I removed all lines in the corpus that did not contain any consecutive alphabetic characters using a clean_corpus.py script that I wrote. This brought the corpus size down to 4,346,278 pairs.
 * I wrote a script to calculate the average cosine similarity between the sentence pairs in the corpus. This script is called `cossim.py`. It makes use of the `cosine_similarity()` function from scikit-learn. To run this script from the command line, you can type `python3 cossim.py [filename]`. The lines of the input file need to be tab-separated sentence pairs. This is the format that the processed Para-NMT data comes in.
  * The average cosine similarity between pairs in the corpus was found to be ~0.5740.
 * I then wrote another script, `split1.py`, to split the corpus into two parts: one with true paraphrase pairs and one with randomly paired sentences (and during the pairing process, pairing with a sentence’s original counterpart was blocked, so none of the resulting pairs should be paraphrases). This script just runs by typing `python3 split1.py`. The filenames I wanted to use are hardcoded in; it was meant to be single use.
@@ -86,9 +93,11 @@ So, training on high cosine similarity pairs does lead to a significant improvem
 ##### Dataset Issues
 * First of all, let’s talk about the dataset. In each sentence pair in ParaNMT-50M, there is one human-generated sentence and one machine-generated one that is assumed to be a paraphrase. There are obviously some problems with this. I think that an ideal paraphrase corpus would probably consist of pairs of high-quality human-created paraphrases with an abundance of lexical and syntactic variation. Unsurprisingly, that kind of thing isn't easy to find for cheap.
 
-* I went with Para-NMT50 because even though it was created through backtranslation, it seemed to be of decent quality. It was easy to download and work with. It is also made up of sentences, and I was interested in doing something with sentential paraphrases. However, manual inspection of the corpus did reveal that quite a few sentences were not true paraphrases. There were apparent errors that probably came from the machine translations. There also appeared to be some sentences in the corpus that were entirely or mostly in Czech. I did not attempt to filter these out. So the model is getting some incorrect or unhelpful examples in training.
+* I went with Para-NMT50 because even though it was created through backtranslation, it seemed to be of decent quality. It was easy to download and work with. It is also made up of sentences, and I was interested in doing something with sentential paraphrases. However, manual inspection of the corpus did reveal that quite a few sentences were not true paraphrases. There were apparent errors that probably came from the machine translations. There also appeared to be some sentences in the corpus that were entirely or mostly in Czech. I did not attempt to filter out any non-English sentences or erroneous translations.
 
 * It would be interesting to try doing this with other corpora and see what the results are. It also might be worthwhile to adjust the Para-NMT dataset more: additional filtering out of problematic sentence pairs, for example.
+
+* It would also be nice to try this on languages other than English. If it's difficult to find high-quality paraphrase corpora in English, it's even harder to find ones in other languages. However, there are some out there, like Opusparcus and the Tatoeba corpus, which contain paraphrase pairs in multiple languages.
 
 ##### Code Issues
 * I need to go back and fix the bug in my code that paired the high-cosine-similarity sentences.
