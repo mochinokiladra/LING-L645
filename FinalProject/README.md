@@ -17,7 +17,7 @@ So, here is what I did:
 * I created two training sets and two test sets from these three groups of sentence pairs
 * I used a BERT-based model to run some experiments and answer the above two questions.
 
-I used the distilbert-base-uncased model from Huggingface to carry out my experiments.
+I used the `distilbert-base-uncased model` from Huggingface to carry out my experiments.
 
 ### What is paraphrase detection?
 First of all, what does paraphrase detection entail? Well, before we get to that, maybe we should have a working definition of "paraphrase." If Sentence B is a paraphrase of Sentence A, then the following ought to be true:
@@ -46,20 +46,24 @@ When I started working with the data, I realized there were some lines in the co
 > v5.9.1   v5.9.1
 
 ### Data Processing Steps
-Some of the functions in scikit-learn won’t process inputs that don’t resemble actual words. So I removed all lines in the corpus that did not contain any consecutive alphabetic characters using a clean_corpus.py script that I wrote. This brought the corpus size down to 4,346,278 pairs.
-I wrote a script to calculate the average cosine similarity between the sentence pairs in the corpus. This script is called cossim.py. It makes use of the `cosine_similarity()` function from scikit-learn. To run this script from the command line, you can type `python3 cossim.py [filename]`. The lines of the input file need to be tab-separated sentence pairs. This is the format that the processed Para-NMT data comes in.
-The average cosine similarity between pairs in the corpus was found to be ~0.5740.
-I then wrote another script, split1.py, to split the corpus into two parts: one with true paraphrase pairs and one with randomly paired sentences (and during the pairing process, pairing with a sentence’s original counterpart was blocked, so none of the resulting pairs should be paraphrases). 
-I then ran cossim.py on both of these subcorpora. I found that the average cosine similarity of the true paraphrase pairs was extremely close to that of the original corpus, ~0.5740. The average cosine similarity of the randomly paired sentences was ~0.0493. Paraphrases in this corpus, as expected, have a much higher average cosine similarity than randomly paired sentences. However, there were many paraphrases that had a low cosine similarity, even as low as 0.0.
-The file containing true paraphrase pairs was further split into two datasets, one of which was used to generate a more “challenging” set of non-paraphrase sentence pairs. The script generage_neg_examples.py takes a file containing paraphrase pairs, and for each sentence on the left side of the corpus, it searches for sentences with which it has a high cosine similarity (a cosine similarity of > 0.56, based on the finding that true paraphrases had a cosine similarity of around 0.57 on average). When a sentence has a list of candidates, it chooses the best of those candidates that hasn’t yet been paired with another sentence. If there are no candidates that haven’t been paired yet, the sentence simply gets thrown out. I only wanted to have pairs that met the criterion of having a cosine similarity > 0.56. 
-Running this script yielded 172,811 pairs. However, inspection of the pairs revealed that there were some duplicates among the right-hand matches due to an error in my code. Oops! Removing the duplicates resulted in 94,588 valid pairs. The average cosine similarity in this set ended up being ~0.6064. 
-I then created a subcorpus of 200,000 true paraphrase pairs and 100,000 randomly paired non-paraphrases. After that, I wrote another script, `generate_tsv_data.py`, to generate .tsv files containing positive and negative sentence pairs along with their labels (1 for paraphrase and 0 for non-paraphrase). I used this script to generate two training sets: `train_1.tsv` and `train_2.tsv`, and two test sets: `test_1.tsv` and `test_2.tsv`. The true paraphrase examples in each of the training sets are the same, but the non-paraphrase examples are different; train_1 contains randomly paired sentences, and train_2 contains the sentences that were paired based on high cosine similarity. The test sets are organized in the same way (obviously with different examples than the training sets). I uploaded my datasets to Huggingface so that I could make use of their API for my experiments.
+Here are all of the things I did with the data before using it for my experiments:
+* Some of the functions in scikit-learn won’t process inputs that don’t resemble actual words. So I removed all lines in the corpus that did not contain any consecutive alphabetic characters using a clean_corpus.py script that I wrote. This brought the corpus size down to 4,346,278 pairs.
+* I wrote a script to calculate the average cosine similarity between the sentence pairs in the corpus. This script is called `cossim.py`. It makes use of the `cosine_similarity()` function from scikit-learn. To run this script from the command line, you can type `python3 cossim.py [filename]`. The lines of the input file need to be tab-separated sentence pairs. This is the format that the processed Para-NMT data comes in.
+ * The average cosine similarity between pairs in the corpus was found to be ~0.5740.
+* I then wrote another script, `split1.py`, to split the corpus into two parts: one with true paraphrase pairs and one with randomly paired sentences (and during the pairing process, pairing with a sentence’s original counterpart was blocked, so none of the resulting pairs should be paraphrases). This script just runs by typing `python3 split1.py`. The filenames I wanted to use are hardcoded in; it was meant to be single use.
+* I then ran `cossim.py` on both of these subcorpora. I found that the average cosine similarity of the true paraphrase pairs was extremely close to that of the original corpus, ~0.5740. The average cosine similarity of the randomly paired sentences was ~0.0493. Paraphrases in this corpus, as expected, have a much higher average cosine similarity than randomly paired sentences. However, there were many "true" paraphrases that had a low cosine similarity, even as low as 0.0.
+* The file containing true paraphrase pairs was further split into two datasets, one of which was used to generate a more “challenging” set of non-paraphrase sentence pairs. 
+ * The script `generage_neg_examples.py` takes a file containing paraphrase pairs, and for each sentence on the left side of the corpus, it searches for sentences with which it has a high cosine similarity (a cosine similarity of > 0.56, based on the finding that true paraphrases had a cosine similarity of around 0.57 on average). When a sentence has a list of candidates, it chooses the best of those candidates that hasn’t yet been paired with another sentence. If there are no candidates that haven’t been paired yet, the sentence simply gets thrown out. I only wanted to have pairs that met the criterion of having a cosine similarity > 0.56. 
+ * Running this script yielded 172,811 pairs. However, inspection of the pairs revealed that there were some duplicates among the right-hand matches due to an error in my code. Oops! Removing the duplicates resulted in 94,588 valid pairs. The average cosine similarity in this set ended up being ~0.6064. 
+* I then created a subcorpus of 200,000 true paraphrase pairs and 100,000 randomly paired non-paraphrases. After that, I wrote another script, `generate_tsv_data.py`, to generate .tsv files containing positive and negative sentence pairs along with their labels (1 for paraphrase and 0 for non-paraphrase). I used this script to generate two training sets: `train_1.tsv` and `train_2.tsv`, and two test sets: `test_1.tsv` and `test_2.tsv`. The true paraphrase examples in each of the training sets are the same, but the non-paraphrase examples are different; `train_1` contains randomly paired sentences, and `train_2` contains the sentences that were paired based on high cosine similarity. The test sets are organized in the same way (obviously with different examples than the training sets). 
+ * To run `generate_tsv_data.py`: type `python3 [filename with paraphrases], [filename with non-paraphrase pairs], [output filename (with .tsv file extension]`
+* Finally, I uploaded my datasets to Huggingface so that I could easily make use of their API for my experiments.
 
 ### Experiments and Results
-I did two separate experiments using a distilBERT model, which are described below. You can view the code and output from these experiments in experiment_01.ipynb and experiment_02.ipynb. 
+In a Google Colab notebook, I did two separate experiments using a distilBERT model, which are described below. You can view the code and output from these experiments in `experiment_01.ipynb` and `experiment_02.ipynb`. 
 
 First, I trained distilbert-base-uncased on train_1 and then tested the model on each of the test sets. Remember, this is the training set that used randomly paired sentences as its non-paraphrase examples. I expected that this model would do quite well on the test_1 set since it was also made up of true paraphrases and randomly paired sentences, and I expected it to struggle more with test_2 (the one where the non-paraphrase pairs had a high cosine similarity). 
-The F1 scores for test_1 and test_2 are below:
+The F1 scores for `test_1` and `test_2` are below:
 
 
 | Test Set 1 (random pairs) |  Test Set 2 (high cosine similarity pairs) |
@@ -78,12 +82,18 @@ Results from Experiment 2 (F1 score):
 So, training on high cosine similarity pairs does lead to a significant improvement in its ability to distinguish paraphrases from similar-looking non-paraphrases. Interestingly, the model's performance on test set 1 decreases slightly. Test set 2 is still a bit more difficult than test set 1, even after training on the high-cosine-similarity pairs.
 
 ### What would have made this project better? / What could I try in the future?
-First of all, let’s talk about the dataset. In each sentence pair in ParaNMT-50M, there is one human-generated sentence and one machine-generated one that is assumed to be a paraphrase. Obviously, there are problems with this. I think that an ideal paraphrase corpus would probably consist of pairs of high-quality human-created paraphrases with an abundance of lexical and syntactic variation. Unsurprisingly, that kind of thing isn't easy to find for cheap.
 
-I went with Para-NMT50 because even though it was created through backtranslation, it seemed to be of decent quality. It is also made up of sentences, and I was interested in doing something with sentential paraphrases. However, manual inspection of the corpus did reveal that quite a few sentences were not true paraphrases. There were apparent errors that probably came from the machine translations. There also appeared to be some sentences in the corpus that were entirely or mostly in Czech. I did not attempt to filter these out. So the model is getting some incorrect or unhelpful examples in training.
+##### Dataset Issues
+* First of all, let’s talk about the dataset. In each sentence pair in ParaNMT-50M, there is one human-generated sentence and one machine-generated one that is assumed to be a paraphrase. There are obviously some problems with this. I think that an ideal paraphrase corpus would probably consist of pairs of high-quality human-created paraphrases with an abundance of lexical and syntactic variation. Unsurprisingly, that kind of thing isn't easy to find for cheap.
 
-It would be interesting to try doing this with other corpora and see what the results are. It also might be worthwhile to adjust the Para-NMT dataset more—additional filtering out of problematic sentence pairs, for example, or a higher cosine similarity threshold for the “difficult” non-paraphrase examples that I used in train_2 and test_2. 
-Code Issues
-If I fix the bug in my code to match up the high-cosine-similarity sentence pairs, there will be more examples to work with. 
-Other
-In hindsight, I probably should have had another test set with a mix of both random sentence pairs and high cosine similarity pairs. Next time.
+* I went with Para-NMT50 because even though it was created through backtranslation, it seemed to be of decent quality. It was easy to download and work with. It is also made up of sentences, and I was interested in doing something with sentential paraphrases. However, manual inspection of the corpus did reveal that quite a few sentences were not true paraphrases. There were apparent errors that probably came from the machine translations. There also appeared to be some sentences in the corpus that were entirely or mostly in Czech. I did not attempt to filter these out. So the model is getting some incorrect or unhelpful examples in training.
+
+* It would be interesting to try doing this with other corpora and see what the results are. It also might be worthwhile to adjust the Para-NMT dataset more: additional filtering out of problematic sentence pairs, for example.
+
+##### Code Issues
+* I need to go back and fix the bug in my code that paired the high-cosine-similarity sentences.
+
+##### Methodology
+* In hindsight, I probably should have had another test set with a mix of both random sentence pairs and high cosine similarity pairs. Actually, I was definitely planning to do that at some point and then forgot about it as I was working on getting other parts of the project to work.
+* It would have been nice to know the precision and recall for each experiment along with F1. If I were to redo the experiments, I would include them.
+* It would be interesting to see how a higher cosine similarity threshold for the challenging sentence pairs would affect the results. Or to try using a different similarity metric.
