@@ -53,7 +53,7 @@ The F1 scores for test_1 and test_2 are below:
 
 | Test Set 1 (random pairs) |  Test Set 2 (high cosine similarity pairs) |
 
-|:--------                  |                                    -------:|
+|:--------                                                       -------:|
 | 0.9987                    | 0.8902                                     |
     
 
