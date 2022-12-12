@@ -48,14 +48,14 @@ I then created a subcorpus of 200,000 true paraphrase pairs and 100,000 randomly
 I did two separate experiments using a distilBERT model, which are described below. You can view the code and output from these experiments in experiment_01.ipynb and experiment_02.ipynb. 
 
 First, I trained distilbert-base-uncased on train_1 and then tested the model on each of the test sets. Remember, this is the training set that used randomly paired sentences as its non-paraphrase examples. I expected that this model would do quite well on the test_1 set since it was also made up of true paraphrases and randomly paired sentences, and I expected it to struggle more with test_2 (the one where the non-paraphrase pairs had a high cosine similarity). 
-The f1 and accuracy scores from Experiment 1 are as follows:
+The F1 scores for test_1 and test_2 are below:
 
 
 | Test Set 1 (random pairs) |  Test Set 2 (high cosine similarity pairs) |
-| F1      |  Accuracy       | F1            |      Accuracy              |
-|:--------|      ----------:|:-----------   |               ------------:|
-| 0.9987  | 0.9983          | 0.8902        | 0.8330                     |
 
+|:--------                  |                                    -------:|
+| 0.9987                    | 0.8902                                     |
+    
 
 Test set 1 (random pairs): 
 F1: 0.9987	Accuracy: 0.9983
