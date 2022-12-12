@@ -1,6 +1,12 @@
 # Making a Better Paraphrase Detection by Using Similar Non-Paraphrases
 
-The goal of this project was to test whether a paraphrase detection model might be improved by giving it more "challenging" non-paraphrase sentence pairs. I downloaded a corpus of paraphrase pairs and divided it into three groups: one with sentence pairs that were actually paraphrases, one with randomly paired sentences that were assumed not to be paraphrases, and one with sentences that were paired with other sentences in the corpus with which they had a high cosine similarity. The idea was that sentence pairs with a high cosine similarity would be harder for a system to distinguish between paraphrase and non-paraphrase because these sentences would appear to be similar on the surface even if they are not equivalent in meaning. 
+The goal of this project was to test whether a paraphrase detection model might be improved by giving it more "challenging" non-paraphrase sentence pairs. I downloaded a corpus of paraphrase pairs and divided it into three groups: one with sentence pairs that were actually paraphrases, one with randomly paired sentences that were assumed not to be paraphrases, and one with sentences that were paired with other sentences in the corpus with which they had a high cosine similarity. The idea was that sentence pairs with a high cosine similarity would be harder for a system to distinguish between paraphrase and non-paraphrase because these sentences would appear to be similar on the surface even if they are not equivalent in meaning.
+
+My objective was to answer the following questions:
+1. Are non-paraphrastic sentence pairs with a high cosine similarity trickier for a machine learning model to classify than sentences that are randomly paired? How much trickier?
+2. Does training a model on these "trickier" examples help it improve its ability to distinguish paraphrases vs. non-paraphrases?
+
+I used the distilbert-base-uncased model from Huggingface to carry out my experiments.
 
 ### What is paraphrase detection?
 First of all, what does paraphrase detection entail? Well, before we get to that, maybe we should have a working definition of "paraphrase." If Sentence B is a paraphrase of Sentence A, then the following ought to be true:
@@ -17,7 +23,11 @@ Often, paraphrases incorporate both lexical and syntactic changes:
 3a) The field of computational linguistics is fascinating, in my opinion.
 3b) I find the computational linguistics field to be very interesting.
 
-What "counts" as a pair of paraphrases might differ from person to person. According to some definitions, "I like dogs" and "I adore dogs" might be close enough in meaning to be considered paraphrases, but it can also be argued that "adore" deviates too much in meaning from "like" to accept this sentence pair as paraphrases. 
+A paraphrase detection system should be able to tell you that 3a and 3b are paraphrases, but that 4a and 4b are not:
+4a) The field of computational linguistics is fascinating, in my opinion.
+4b) The field of beautiful flowers is breathtaking, in my opinion.
+
+
 
 ### The Data Source
 The datasets used in this project came from the ParaNMT-50M corpus (link). More specifically, I used the Para-nmt-5m-processed dataset from John Wieting’s web page. This is a subset of the corpus, containing 5,370,128 paraphrase pairs that have been pre-tokenized and fully lowercased. The ParaNMT-50M corpus was created by taking several Czech-English parallel corpora consisting of human translations and translating the Czech side to English using a neural machine translation system. This is similar to the popular “pivoting” method, in which sentences from one language are translated into another language and then back-translated into the original language to create artificial paraphrases.
