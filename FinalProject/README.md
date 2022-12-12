@@ -27,21 +27,25 @@ First of all, what does paraphrase detection entail? Well, before we get to that
 Sentence A might differ syntactically from Sentence B, such as in the following example:
 
 > 1a) The field of computational linguistics is fascinating, in my opinion.
+
 > 1b) In my opinion, the computational linguistics field is fascinating.
 
 Alternatively, the two sentences could have lexical differences:
 
 > 2a) The field of computational linguistics is fascinating, in my opinion.
+
 > 2b) The subject of computational linguistics is very interesting, in my view.
 
 Often, paraphrases incorporate both lexical and syntactic changes:
 
 > 3a) The field of computational linguistics is fascinating, in my opinion.
+
 > 3b) I find the computational linguistics field to be very interesting.
 
 A paraphrase detection system should be able to tell you that 3a and 3b are paraphrases, but that 4a and 4b are not:
 
 > 4a) The field of computational linguistics is fascinating, in my opinion.
+
 > 4b) The field of beautiful flowers is breathtaking, in my opinion.
 
 (Note that the cosine similarity of 3a and 3b is 0.4216, while that of 4a and 4b is 0.7000.)
