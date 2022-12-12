@@ -52,8 +52,9 @@ The f1 and accuracy scores from Experiment 1 are as follows:
 
 | Test Set 1 (random pairs) |  Test Set 2 (high cosine similarity pairs) |
 |:-----------------------|-----------------------:|
-| F1  |  0.9987        :|: F1  |         0.8902 |
-| Accuracy | 0.9983    :|: Accuracy | 0.8330    |
+| F1  |  Accuracy     | F1  |      Accuracy    |
+|:--------|---------------:|:-----------|------------:|
+| 0.9987 | 0.9983    | 0.8902 | 0.8330    |
 
 
 Test set 1 (random pairs): 
