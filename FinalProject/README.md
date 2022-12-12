@@ -1,6 +1,6 @@
 # Making a Better Paraphrase Detection by Using Similar Non-Paraphrases
 
-The goal of this project was to test whether a paraphrase detection model might be improved by giving it more "challenging" non-paraphrase sentence pairs.
+The goal of this project was to test whether a paraphrase detection model might be improved by giving it more "challenging" non-paraphrase sentence pairs. I downloaded a corpus of paraphrase pairs and divided it into three groups: one with sentence pairs that were actually paraphrases, one with randomly paired sentences that were assumed not to be paraphrases, and one with sentences that were paired with other sentences in the corpus with which they had a high cosine similarity. The idea was that sentence pairs with a high cosine similarity would be harder for a system to distinguish between paraphrase and non-paraphrase because these sentences would appear to be similar on the surface even if they are not equivalent in meaning. 
 
 ### What is paraphrase detection?
 First of all, what does paraphrase detection entail? Well, before we get to that, maybe we should have a working definition of "paraphrase." If Sentence B is a paraphrase of Sentence A, then the following ought to be true:
