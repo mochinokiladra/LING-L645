@@ -34,12 +34,18 @@ Test set 1 (random pairs):
 F1: 0.9987	Accuracy: 0.9983
 Test set 2 (high cosine similarity pairs):
 F1: 0.8902	Accuracy: 0.8330
-Experiment 2 was the same as Experiment 1, except that it used train_2 to train the model. 
--- Tested the trained model on two datasets: one with randomly paired negative examples, one with only cosine-paired negative examples. In hindsight, it would have been a good idea to make another test set with a mix of random and cosine pairs. Well.
-Results:
-Experiment 1: {'f1': 0.9987428923466287, 'accuracy': 0.9983222222222222} {'f1': 0.8902130438331564, 'accuracy': 0.8325921902757505}
-
+Experiment 2 was the same as Experiment 1, except that it used train_2 to train the model. I expected that training the model on high-cosine-similarity pairs would help it more accurately predict paraphrases.
+Results from Experiment 2:
+Test set 1 (random pairs):
+F1: 0.9869	Accuracy: 0.9827
+Test set 2 (high cosine similarity pairs):
+F1: 0.9774	Accuracy: 0.9692
 
 What would have made this project better?
-First of all, let’s talk about the dataset. An ideal corpus for training a paraphrase detection system would probably consist of a very large number of high-quality human-generated paraphrases that have been annotated for quality, meaning preservation, etc. However, the construction of such a corpus would be very expensive. Even if you crowdsource the problem (which has been done), you might not get very high-quality outputs. Good writers aren’t cheap, and coming up with creative paraphrases can be challenging. So it’s not surprising that the freely available paraphrase corpora out there are largely created using artificial means, backtranslation being a popular one. There are obviously shortcomings to such approaches, and we can’t trust that all of the generated sentence pairs will be true paraphrases.
-I went with Para-NMT50 because it seemed to be of decent quality. It is also made up of sentences, and I was interested in doing something with sentential paraphrases. However, manual inspection of the corpus did reveal that quite a few sentences were not (what I would consider to be) true paraphrases. There also appeared to be some sentences that were entirely or mostly in Czech. I did not attempt to filter these out. 
+First of all, let’s talk about the dataset. In an ideal world, we would have perhaps a very large number of high-quality human-generated paraphrases that have been annotated for quality, meaning preservation, etc. But that’s expensive, hence the popularity of artificial methods of paraphrase generation such as backtranslation. There are obviously shortcomings to such approaches, and we can’t trust that all of the generated sentence pairs will be true paraphrases.
+I went with Para-NMT50 because even though it was created through backtranslation, it seemed to be of decent quality. It is also made up of sentences, and I was interested in doing something with sentential paraphrases. However, manual inspection of the corpus did reveal that quite a few sentences were not true paraphrases. There were mismatches that probably came about from errors in the machine translations. There also appeared to be some sentences in the corpus that were entirely or mostly in Czech. I did not attempt to filter these out. So yeah, the model is getting some incorrect or unhelpful examples in training.
+It would be interesting to try doing this with other corpora and see what the results are. It also might be worthwhile to adjust the Para-NMT dataset more—additional filtering out of problematic sentence pairs, for example, or a higher cosine similarity threshold for the “difficult” non-paraphrase examples that I used in train_2 and test_2. 
+Code Issues
+If I fix the bug in my code to match up the high-cosine-similarity sentence pairs, there will be more examples to work with. 
+Other
+In hindsight, I probably should have had another test set with a mix of both random sentence pairs and high cosine similarity pairs. Next time.
