@@ -1,4 +1,4 @@
-# Making a Better Paraphrase Detection by Using Similar Non-Paraphrases
+# Improving Paraphrase Detection by Using Highly Similar Non-Paraphrastic Sentence Pairs
 
 The goal of this project was to test whether a paraphrase detection model might be improved by giving it more "challenging" non-paraphrase sentence pairs. I downloaded a corpus of paraphrase pairs and divided it into three groups: one with sentence pairs that were actually paraphrases, one with randomly paired sentences that were assumed not to be paraphrases, and one with sentences that were paired with other sentences in the corpus with which they had a high cosine similarity. The idea was that sentence pairs with a high cosine similarity would be harder for a system to distinguish between paraphrase and non-paraphrase because these sentences would appear to be similar on the surface even if they are not equivalent in meaning.
 
@@ -49,6 +49,13 @@ I did two separate experiments using a distilBERT model, which are described bel
 
 First, I trained distilbert-base-uncased on train_1 and then tested the model on each of the test sets. Remember, this is the training set that used randomly paired sentences as its non-paraphrase examples. I expected that this model would do quite well on the test_1 set since it was also made up of true paraphrases and randomly paired sentences, and I expected it to struggle more with test_2 (the one where the non-paraphrase pairs had a high cosine similarity). 
 The f1 and accuracy scores from Experiment 1 are as follows:
+
+| Test Set 1 (random pairs) |  Test Set 2 (high cosine similarity pairs) |
+|:-----------------------|-----------------------:|
+|: F1  |  0.9987        :|: F1  |         0.8902 :|
+|: Accuracy | 0.9983    :|: Accuracy | 0.8330    :|
+
+
 Test set 1 (random pairs): 
 F1: 0.9987	Accuracy: 0.9983
 Test set 2 (high cosine similarity pairs):
