@@ -54,18 +54,17 @@ The F1 scores for test_1 and test_2 are below:
 | Test Set 1 (random pairs) |  Test Set 2 (high cosine similarity pairs) |
 |:-----------------------   |:----------------------                     |
 | 0.9987                    | 0.8902                                     |
-    
 
-Test set 1 (random pairs): 
-F1: 0.9987	Accuracy: 0.9983
-Test set 2 (high cosine similarity pairs):
-F1: 0.8902	Accuracy: 0.8330
-Experiment 2 was the same as Experiment 1, except that it used train_2 to train the model. I expected that training the model on high-cosine-similarity pairs would help it more accurately predict paraphrases.
-Results from Experiment 2:
-Test set 1 (random pairs):
-F1: 0.9869	Accuracy: 0.9827
-Test set 2 (high cosine similarity pairs):
-F1: 0.9774	Accuracy: 0.9692
+From these F1 scores, we can see that high cosine similarity pairs do make the task significantly more difficult for the model.
+
+Experiment 2 was the same as Experiment 1, except that it used train_2 to train the model. I thought that training the model on high-cosine-similarity pairs might help it more accurately predict paraphrases.
+
+Results from Experiment 2 (F1 score):
+| Test Set 1 (random pairs) |  Test Set 2 (high cosine similarity pairs) |
+|:-----------------------   |:----------------------                     |
+| 0.9869                    | 0.9774                                     |
+
+So, training on high cosine similarity pairs does lead to a significant improvement in its ability to distinguish paraphrases from similar-looking non-paraphrases. Interestingly, the model's performance on test set 1 decreases slightly. Test set 2 is still a bit more difficult than test set 1, even after training on the high-cosine-similarity pairs.
 
 ### What would have made this project better?
 First of all, let’s talk about the dataset. In an ideal world, we would have perhaps a very large number of high-quality human-generated paraphrases that have been annotated for quality, meaning preservation, etc. But that’s expensive, hence the popularity of artificial methods of paraphrase generation such as backtranslation. There are obviously shortcomings to such approaches, and we can’t trust that all of the generated sentence pairs will be true paraphrases.
