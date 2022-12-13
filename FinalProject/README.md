@@ -5,7 +5,7 @@ The goal of this project was to test whether a paraphrase detection model might 
 I used the cosine similarity of vectorized sentences (with vectors created from word counts) from the corpus to select the "challenging" sentence pairs. The idea was that these sentence pairs would have a lot of lexical overlap, potentially making it difficult for a system to recognize them as non-paraphrases.
 
 My objective was to answer the following questions:
-1. Are non-paraphrastic sentence pairs with a high cosine similarity trickier for a machine learning model to classify than sentences that are randomly paired? How much trickier?
+1. Are non-paraphrastic sentence pairs with a high cosine similarity more difficult for a machine learning model to classify than sentences that are randomly paired? How much more difficult?
 2. Does training a model on these "trickier" examples help it improve its ability to distinguish paraphrases vs. non-paraphrases?
 
 Here is the short version of what I did:
