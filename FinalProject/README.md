@@ -92,7 +92,7 @@ Results from Experiment 2 (F1 score):
 |:-----------------------   |:----------------------                     |
 | 0.9869                    | 0.9774                                     |
 
-So, training on high cosine similarity pairs does lead to a significant improvement in its ability to distinguish paraphrases from similar-looking non-paraphrases. Interestingly, the model's performance on test set 1 decreases slightly. Test set 2 is still a bit more difficult than test set 1, even after training on the high-cosine-similarity pairs.
+So, training on high cosine similarity pairs does lead to a significant improvement in its ability to distinguish paraphrases from similar-looking non-paraphrases. Interestingly, the model's performance on test set 1 decreases a bit. Test set 2 is still a bit more difficult than test set 1, even after training on the high-cosine-similarity pairs.
 
 ### What would have made this project better? / What could I try in the future?
 
