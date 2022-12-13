@@ -17,7 +17,7 @@ So, here is what I did:
 * I created two training sets and two test sets from these three groups of sentence pairs
 * I used a BERT-based model to run some experiments and answer the above two questions.
 
-I used the `distilbert-base-uncased model` from Huggingface to carry out my experiments.
+I used the `distilbert-base-uncased model` from [Huggingface](https://huggingface.co/models) to carry out my experiments.
 
 ### What is paraphrase detection?
 First of all, what does paraphrase detection entail? Well, before we get to that, maybe we should have a working definition of "paraphrase." If Sentence B is a paraphrase of Sentence A, then the following ought to be true:
@@ -52,7 +52,7 @@ A paraphrase detection system should be able to tell you that 3a and 3b are para
 
 ### The Data Source
 * The datasets used in this project came from the [ParaNMT-50M corpus](https://aclanthology.org/P18-1042.pdf). 
-* More specifically, I used the Para-nmt-5m-processed dataset from John Wieting’s web page. 
+* More specifically, I used the Para-nmt-5m-processed dataset from John Wieting’s [web page](https://www.cs.cmu.edu/~jwieting/). 
  * This is a subset of the corpus, containing 5,370,128 paraphrase pairs that have been pre-tokenized and fully lowercased. 
 * The ParaNMT-50M corpus was created by taking several Czech-English parallel corpora consisting of human translations and translating the Czech side to English using a neural machine translation system. This is similar to the popular “pivoting” method, in which sentences from one language are translated into another language and then back-translated into the original language to create artificial paraphrases.
 
@@ -70,12 +70,12 @@ Here are all of the things I did with the data before using it for my experiment
  * Running this script yielded 172,811 pairs. However, inspection of the pairs revealed that there were some duplicates among the right-hand matches due to an error in my code. Oops! Removing the duplicates resulted in 94,588 valid pairs. The average cosine similarity in this set ended up being ~0.6064. 
 * I then created a subcorpus of 200,000 true paraphrase pairs and 100,000 randomly paired non-paraphrases. After that, I wrote another script, `generate_tsv_data.py`, to generate .tsv files containing positive and negative sentence pairs along with their labels (1 for paraphrase and 0 for non-paraphrase). I used this script to generate two training sets: `train_1.tsv` and `train_2.tsv`, and two test sets: `test_1.tsv` and `test_2.tsv`. The true paraphrase examples in each of the training sets are the same, but the non-paraphrase examples are different; `train_1` contains randomly paired sentences, and `train_2` contains the sentences that were paired based on high cosine similarity. The test sets are organized in the same way (obviously with different examples than the training sets). 
  * To run `generate_tsv_data.py`: type `python3 [filename with paraphrases], [filename with non-paraphrase pairs], [output filename (with .tsv file extension]`
-* Finally, I uploaded my datasets to Huggingface so that I could easily make use of their API for my experiments.
+* Finally, I uploaded my datasets to Huggingface so that I could easily access them for my experiments.
 
 ### Experiments and Results
 In a Google Colab notebook, I did two separate experiments using a distilBERT model, which are described below. You can view the code and output from these experiments in `experiment_01.ipynb` and `experiment_02.ipynb`. 
 
-First, I trained distilbert-base-uncased on train_1 and then tested the model on each of the test sets. Remember, this is the training set that used randomly paired sentences as its non-paraphrase examples. I expected that this model would do quite well on the test_1 set since it was also made up of true paraphrases and randomly paired sentences, and I expected it to struggle more with test_2 (the one where the non-paraphrase pairs had a high cosine similarity). 
+First, I trained distilbert-base-uncased on train_1 and then tested the model on each of the test sets. Remember, this is the training set that used randomly paired sentences as its non-paraphrase examples. I expected that this model would do quite well on the `test_1` set since it was also made up of true paraphrases and randomly paired sentences, and I expected it to struggle more with `test_2` (the one where the non-paraphrase pairs had a high cosine similarity). 
 The F1 scores for `test_1` and `test_2` are below:
 
 
