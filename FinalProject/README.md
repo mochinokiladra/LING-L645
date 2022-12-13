@@ -105,10 +105,10 @@ So, training on high cosine similarity pairs does lead to a significant improvem
 
 * It would also be nice to try this on languages other than English. If it's difficult to find high-quality paraphrase corpora in English, it's even harder to find ones in other languages. However, there are some out there, like Opusparcus and the Tatoeba corpus, which contain paraphrase pairs in multiple languages.
 
-##### Code Issues
-* I need to go back and fix the bug in my code that paired the high-cosine-similarity sentences.
-
 ##### Methodology
 * In hindsight, I probably should have had another test set with a mix of both random sentence pairs and high cosine similarity pairs. Actually, I was definitely planning to do that at some point and then forgot about it as I was working on getting other parts of the project to work.
 * It would have been nice to know the precision and recall for each experiment along with F1. If I were to redo the experiments, I would include them.
 * It would be interesting to see how a higher cosine similarity threshold for the challenging sentence pairs would affect the results. Or to try using a different similarity metric.
+
+##### Code Issues
+* I need to go back and fix the bug in my code that paired the high-cosine-similarity sentences.
