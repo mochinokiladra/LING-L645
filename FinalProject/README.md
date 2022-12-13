@@ -48,7 +48,7 @@ A paraphrase detection system should be able to tell you that 3a and 3b are para
 
 > 4b) The field of beautiful flowers is breathtaking, in my opinion.
 
-(Note that the cosine similarity of 3a and 3b is 0.4216, while that of 4a and 4b is 0.7000.)
+If the system is relying too heavily on lexical similarity, it may think that 4a and 4b are the paraphrases.
 
 ### The Data Source
 * The datasets used in this project came from the [ParaNMT-50M](https://aclanthology.org/P18-1042.pdf) corpus. 
