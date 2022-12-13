@@ -22,7 +22,7 @@ I used the `distilbert-base-uncased model` from [Huggingface](https://huggingfac
 ### What is paraphrase detection?
 First of all, what does paraphrase detection entail? Well, before we get to that, maybe we should have a working definition of "paraphrase." If Sentence B is a paraphrase of Sentence A, then the following ought to be true:
 1. Sentence A and Sentence B are not the same sentence on the surface.
-2. Sentence A and Sentence B should have (approximately) the same underlying meaning.
+2. Sentence A and Sentence B have (approximately) the same underlying meaning.
 
 Sentence A might differ syntactically from Sentence B, such as in the following example:
 
