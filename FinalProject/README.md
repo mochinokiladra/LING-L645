@@ -52,7 +52,7 @@ A paraphrase detection system should be able to tell you that 3a and 3b are para
 
 ### The Data Source
 * The datasets used in this project came from the [ParaNMT-50M corpus](https://aclanthology.org/P18-1042.pdf). 
-* More specifically, I used the Para-nmt-5m-processed dataset from John Wieting’s [web page](https://www.cs.cmu.edu/~jwieting/). 
+* More specifically, I used the "Para-nmt-5m-processed dataset" from John Wieting’s [web page](https://www.cs.cmu.edu/~jwieting/). 
  * This is a subset of the corpus, containing 5,370,128 paraphrase pairs that have been pre-tokenized and fully lowercased. 
 * The ParaNMT-50M corpus was created by taking several Czech-English parallel corpora consisting of human translations and translating the Czech side to English using a neural machine translation system. This is similar to the popular “pivoting” method, in which sentences from one language are translated into another language and then back-translated into the original language to create artificial paraphrases.
 
