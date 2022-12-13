@@ -42,13 +42,11 @@ Often, paraphrases incorporate both lexical and syntactic changes:
 
 > 3b) I find the computational linguistics field to be very interesting.
 
-A paraphrase detection system should be able to tell you that 3a and 3b are paraphrases, but that 4a and 4b are not:
+A paraphrase detection system should be able to tell you that 3a and 3b are paraphrases, but that 4a and 4b are not (even though the latter two have more words in common):
 
 > 4a) The field of computational linguistics is fascinating, in my opinion.
 
 > 4b) The field of beautiful flowers is breathtaking, in my opinion.
-
-If the system is relying too heavily on lexical similarity, it may think that 4a and 4b are the paraphrases.
 
 ### The Data Source
 * The datasets used in this project came from the [ParaNMT-50M](https://aclanthology.org/P18-1042.pdf) corpus. 
