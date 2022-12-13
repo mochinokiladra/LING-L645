@@ -21,7 +21,7 @@ I used the `distilbert-base-uncased model` from Huggingface to carry out my expe
 
 ### What is paraphrase detection?
 First of all, what does paraphrase detection entail? Well, before we get to that, maybe we should have a working definition of "paraphrase." If Sentence B is a paraphrase of Sentence A, then the following ought to be true:
-1. Sentence A and Sentence B are not the same sentence (i.e., there should be some surface-level differences between them).
+1. Sentence A and Sentence B are not the same sentence on the surface.
 2. Sentence A and Sentence B should have (approximately) the same underlying meaning.
 
 Sentence A might differ syntactically from Sentence B, such as in the following example:
@@ -51,8 +51,10 @@ A paraphrase detection system should be able to tell you that 3a and 3b are para
 (Note that the cosine similarity of 3a and 3b is 0.4216, while that of 4a and 4b is 0.7000.)
 
 ### The Data Source
-The datasets used in this project came from the ParaNMT-50M corpus (link). More specifically, I used the Para-nmt-5m-processed dataset from John Wieting’s web page. This is a subset of the corpus, containing 5,370,128 paraphrase pairs that have been pre-tokenized and fully lowercased. The ParaNMT-50M corpus was created by taking several Czech-English parallel corpora consisting of human translations and translating the Czech side to English using a neural machine translation system. This is similar to the popular “pivoting” method, in which sentences from one language are translated into another language and then back-translated into the original language to create artificial paraphrases.
-
+* The datasets used in this project came from the [ParaNMT-50M corpus](https://aclanthology.org/P18-1042.pdf). 
+* More specifically, I used the Para-nmt-5m-processed dataset from John Wieting’s web page. 
+ * This is a subset of the corpus, containing 5,370,128 paraphrase pairs that have been pre-tokenized and fully lowercased. 
+* The ParaNMT-50M corpus was created by taking several Czech-English parallel corpora consisting of human translations and translating the Czech side to English using a neural machine translation system. This is similar to the popular “pivoting” method, in which sentences from one language are translated into another language and then back-translated into the original language to create artificial paraphrases.
 
 ### Data Processing Steps
 Here are all of the things I did with the data before using it for my experiments:
