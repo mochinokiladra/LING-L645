@@ -60,6 +60,7 @@ A paraphrase detection system should be able to tell you that 3a and 3b are para
 Here are all of the things I did with the data before using it for my experiments:
 * When I started working with the data, I realized there were some lines in the corpus that were not actual sentences. For instance, one of the lines read:
 > v5.9.1   v5.9.1 
+
 I wanted to use actual sentences for this project, as much as possible. Furthermore, some of the functions in scikit-learn won’t process inputs that don’t resemble actual words. So I removed all lines in the corpus that did not contain any consecutive alphabetic characters using a clean_corpus.py script that I wrote. This brought the corpus size down to 4,346,278 pairs.
 * I wrote a script to calculate the average cosine similarity between the sentence pairs in the corpus. This script is called `cossim.py`. It makes use of the `cosine_similarity()` function from scikit-learn. To run this script from the command line, you can type `python3 cossim.py [filename]`. The lines of the input file need to be tab-separated sentence pairs. This is the format that the processed Para-NMT data comes in.
  * The average cosine similarity between pairs in the corpus was found to be ~0.5740.
