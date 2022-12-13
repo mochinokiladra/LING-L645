@@ -113,4 +113,4 @@ So, training on high cosine similarity pairs does lead to a significant improvem
 * It would be interesting to see how a higher cosine similarity threshold for the challenging sentence pairs would affect the results. Or to try using a different similarity metric.
 
 #### Code Issues
-* I need to go back and fix the bug in my code that paired the high-cosine-similarity sentences.
+* I need to go back and fix that bug in my code that paired the high-cosine-similarity sentences so that it will yield more sentence pairs. There's probably just a line in the wrong place. 
