@@ -6,7 +6,7 @@ I used the cosine similarity of vectorized sentences (with vectors created from 
 
 My objective was to answer the following questions:
 1. Are non-paraphrastic sentence pairs with a high cosine similarity more difficult for a machine learning model to classify than sentences that are randomly paired? How much more difficult?
-2. Does training a model on these "trickier" examples help it improve its ability to distinguish paraphrases vs. non-paraphrases?
+2. Does training a model on these more difficult examples help it improve its ability to distinguish paraphrases from non-paraphrases?
 
 Here is the short version of what I did:
 
