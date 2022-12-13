@@ -98,7 +98,7 @@ So, training on high cosine similarity pairs does lead to a significant improvem
 
 ### What would have made this project better? / What could I try in the future?
 
-##### Dataset Issues
+#### Dataset Issues
 * First of all, let’s talk about the dataset. In each sentence pair in ParaNMT-50M, there is one human-generated sentence and one machine-generated one that is assumed to be a paraphrase. There are obviously some problems with this. I think that an ideal paraphrase corpus would probably consist of pairs of high-quality human-created paraphrases with an abundance of lexical and syntactic variation. Unsurprisingly, that kind of thing isn't easy to find for cheap.
 
 * I went with Para-NMT50 because even though it was created through backtranslation, it seemed to be of decent quality. It was easy to download and work with. It is also made up of sentences, and I was interested in doing something with sentential paraphrases. However, manual inspection of the corpus did reveal that quite a few sentences were not true paraphrases. There were apparent errors that probably came from the machine translations. There also appeared to be some sentences in the corpus that were entirely or mostly in Czech. I did not attempt to filter out any non-English sentences or erroneous translations.
@@ -107,10 +107,10 @@ So, training on high cosine similarity pairs does lead to a significant improvem
 
 * It would also be nice to try this on languages other than English. If it's difficult to find high-quality paraphrase corpora in English, it's even harder to find ones in other languages. However, there are some out there, like Opusparcus and the Tatoeba corpus, which contain paraphrase pairs in multiple languages.
 
-##### Methodology
+#### Methodology
 * In hindsight, I probably should have had another test set with a mix of both random sentence pairs and high cosine similarity pairs. Actually, I was definitely planning to do that at some point and then forgot about it as I was working on getting other parts of the project to work.
 * It would have been nice to know the precision and recall for each experiment along with F1. If I were to redo the experiments, I would include them.
 * It would be interesting to see how a higher cosine similarity threshold for the challenging sentence pairs would affect the results. Or to try using a different similarity metric.
 
-##### Code Issues
+#### Code Issues
 * I need to go back and fix the bug in my code that paired the high-cosine-similarity sentences.
