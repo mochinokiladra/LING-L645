@@ -1,4 +1,4 @@
-# Improving Paraphrase Detection by Using Highly Similar Non-Paraphrastic Sentence Pairs
+# Improving Paraphrase Detection by Using Lexically Similar Non-Paraphrastic Sentence Pairs
 
 The goal of this project was to test whether a paraphrase detection model might be improved by giving it more "challenging" non-paraphrase sentence pairs. By "challenging," I mean sentences that are similar on the surface (such as having many lexical items in common) such that they might confuse a computer, but that a human could easily tell are not semantically equivalent (or even semantically related). 
 
